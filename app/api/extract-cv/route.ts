@@ -4,7 +4,8 @@ import { errorResponse, generateJson } from "@/lib/gemini";
 import { EXTRACT_CV_PROMPT } from "@/lib/prompts";
 import { cvProfileJsonSchema, type CvProfile } from "@/lib/schemas";
 
-const MAX_BYTES = 5 * 1024 * 1024;
+// Vercel rejects request bodies above 4.5 MB.
+const MAX_BYTES = 4 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const form = await request.formData();
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "No file uploaded." }, { status: 400 });
   }
   if (file.size > MAX_BYTES) {
-    return Response.json({ error: "File is larger than 5 MB." }, { status: 400 });
+    return Response.json({ error: "File is larger than 4 MB." }, { status: 400 });
   }
 
   const name = file.name.toLowerCase();

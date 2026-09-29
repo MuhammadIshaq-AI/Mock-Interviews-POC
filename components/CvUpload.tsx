@@ -5,7 +5,8 @@ import type { CvProfile } from "@/lib/schemas";
 import { Button, Card, ErrorBox, Spinner } from "./ui";
 
 const ACCEPTED = [".pdf", ".docx", ".txt"];
-const MAX_BYTES = 5 * 1024 * 1024;
+// Vercel rejects request bodies above 4.5 MB.
+const MAX_BYTES = 4 * 1024 * 1024;
 
 export default function CvUpload({ onExtracted }: { onExtracted: (profile: CvProfile) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +23,7 @@ export default function CvUpload({ onExtracted }: { onExtracted: (profile: CvPro
       return;
     }
     if (f.size > MAX_BYTES) {
-      setError("File is larger than 5 MB.");
+      setError("File is larger than 4 MB.");
       return;
     }
     setFile(f);
@@ -78,7 +79,7 @@ export default function CvUpload({ onExtracted }: { onExtracted: (profile: CvPro
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
         </svg>
         <p className="mt-3 font-medium">{file ? file.name : "Drag & drop your CV here, or click to browse"}</p>
-        <p className="mt-1 text-xs text-slate-500">PDF, DOCX or TXT · max 5 MB</p>
+        <p className="mt-1 text-xs text-slate-500">PDF, DOCX or TXT · max 4 MB</p>
         <input
           ref={inputRef}
           type="file"

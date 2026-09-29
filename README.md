@@ -4,7 +4,7 @@ A proof-of-concept mock interview app. Upload your CV, let Gemini extract your p
 
 ## Flow
 
-1. **Upload CV** – PDF, DOCX or TXT (max 5 MB).
+1. **Upload CV** – PDF, DOCX or TXT (max 4 MB).
 2. **Review profile** – Gemini extracts name, summary, skills, experience, projects, education and suggests roles you fit.
 3. **Choose interview** – pick a target role (suggested or custom), difficulty (easy / medium / hard) and number of questions (5–20).
 4. **Take the test** – one question at a time, jump between questions, submit when all are answered.
@@ -49,3 +49,21 @@ lib/schemas.ts                # types and response schemas
 
 - No database or accounts: progress is kept in the browser session only.
 - Scoring happens in the browser using the answer key returned with the questions, so it is not tamper-proof.
+
+## Deploying to Vercel
+
+The repo is connected to Vercel, so every push to `main` deploys to production (other branches get preview URLs).
+
+`vercel.json` pins the Next.js framework preset and gives the API routes a 60 s `maxDuration`, since Gemini calls can take 20–40 s. Uploads are capped at 4 MB because Vercel functions reject request bodies over 4.5 MB.
+
+To deploy your own copy:
+
+```bash
+npm i -g vercel
+vercel link                                        # create/link the project
+vercel env add GEMINI_API_KEY production --sensitive
+vercel env add GEMINI_MODEL production             # optional, e.g. gemini-3.8-flash
+vercel --prod
+```
+
+Or import the GitHub repo in the Vercel dashboard and add `GEMINI_API_KEY` under **Settings → Environment Variables**.
