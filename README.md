@@ -29,7 +29,7 @@ Open http://localhost:3000.
 | Variable | Required | Description |
 | --- | --- | --- |
 | `GEMINI_API_KEY` | yes | Key from [Google AI Studio](https://aistudio.google.com/apikey) |
-| `GEMINI_MODEL` | no | Gemini model id, defaults to `gemini-flash-latest` |
+| `GEMINI_MODEL` | no | Gemini model id, defaults to `gemini-3.8-flash` (falls back to other Flash models if it is overloaded) |
 
 The API key is only used by the server-side API routes and is never sent to the browser. `.env.local` is git-ignored.
 
